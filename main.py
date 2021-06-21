@@ -148,7 +148,9 @@ def codigoBoton():
         turno2=0
         pos=[]
         pos.append("uno")
-        pos.append("00")
+        matriz=matrizOrtogonal()
+        
+        
         
 
         def iniciarJuego():
@@ -184,6 +186,8 @@ def codigoBoton():
             
             xc1=int(textox1.get())-1
             yc1=int(textoy1.get())-1
+            xmatriz1=int(textox1.get())
+            ymatriz1=int(textoy1.get())
            
             #piezza1____________
             global turno
@@ -213,11 +217,12 @@ def codigoBoton():
                             tabla[yc1+i][xc1+1].config(bg=cb1) 
                             pos.append(str(yc1+i)+str(xc1))
                             pos.append(str(yc1+i)+str(xc1+1))
-
+                            matriz.append(xmatriz1,ymatriz1+i,cb1)
+                            matriz.append(xmatriz1+1,ymatriz1+i,cb1)
                         else:
                             tabla[yc1+i][xc1].config(bg=cb1) 
                             pos.append(str(yc1+i)+str(xc1))
-                
+                            matriz.append(xmatriz1,ymatriz1+i,cb1)
 
             elif turno==2:
                 for i in range(4):
@@ -242,9 +247,14 @@ def codigoBoton():
                             tabla[yc1+i][xc1-1].config(bg=cb1) 
                             pos.append(str(yc1+i)+str(xc1))
                             pos.append(str(yc1+i)+str(xc1-1))
+
+                            matriz.append(xmatriz1,ymatriz1+i,cb1)
+                            matriz.append(xmatriz1-1,ymatriz1+i,cb1)
+
                         else:
                             tabla[yc1+i][xc1].config(bg=cb1)
                             pos.append(str(yc1+i)+str(xc1))
+                            matriz.append(xmatriz1,ymatriz1+i,cb1)
                 
 
             elif turno==3:
@@ -260,6 +270,9 @@ def codigoBoton():
                 else:
                     for i in range(4):
                         tabla[yc1][xc1+i].config(bg=cb1)  
+                        pos.append(str(yc1)+str(xc1+i))
+                        matriz.append(xmatriz1+i,ymatriz1,cb1)
+
             
             elif turno==4:
 
@@ -275,7 +288,11 @@ def codigoBoton():
                 else:
                      for i in range(2):
                         tabla[yc1][xc1+i].config(bg=cb1) 
+                        pos.append(str(yc1)+str(xc1+i))
+                        matriz.append(xmatriz1+i,ymatriz1,cb1)
                         tabla[yc1+1][xc1+i].config(bg=cb1) 
+                        pos.append(str(yc1+1)+str(xc1+i))
+                        matriz.append(xmatriz1+i,ymatriz1+1,cb1)
             
             elif turno==5:
 
@@ -297,8 +314,13 @@ def codigoBoton():
                 else:
                     for i in range(2):
                         tabla[yc1][xc1+i].config(bg=cb1) 
-                        for i in range(4):
-                            tabla[yc1+1][xc1-1 +i].config(bg=cb1) 
+                        pos.append(str(yc1)+str(xc1+i))
+                        matriz.append(xmatriz1+i,ymatriz1,cb1)
+                    
+                    for i in range(4):
+                        tabla[yc1+1][xc1-1 +i].config(bg=cb1) 
+                        pos.append(str(yc1+1)+str(xc1-1 +i))
+                        matriz.append(xmatriz1-1+i,ymatriz1+1,cb1)
             
             elif turno==6:
                 for i in range(5):
@@ -306,10 +328,15 @@ def codigoBoton():
                         if ad==str(yc1+i)+str(xc1):
                             control1=True
                             break
-
-
-                for i in range(5):
-                    tabla[yc1+i][xc1].config(bg=cb1) 
+                
+                if control1==True:
+                    print("no se puede ingresar")
+                
+                else:
+                    for i in range(5):
+                        tabla[yc1+i][xc1].config(bg=cb1) 
+                        pos.append(str(yc1+i)+str(xc1))
+                        matriz.append(xmatriz1,ymatriz1+i,cb1)
 
 
             textox1.delete(0,END)
@@ -338,7 +365,7 @@ def codigoBoton():
         
 
         def Empezar2():
-            global pos
+            control2=False
             if str(listas2.get())=="Rojo":
                 cb2="red"
             elif str(listas2.get())=="Azul":
@@ -351,6 +378,8 @@ def codigoBoton():
 
             xc2=int(textox2.get())-1
             yc2=int(textoy2.get())-1
+            xmatriz2=int(textox2.get())
+            ymatriz2=int(textoy2.get())
 
             #piezza1____________
             global turno2
@@ -360,37 +389,148 @@ def codigoBoton():
             if turno2==1:
                 for i in range(4):
                     if i==3 :
-                     
-                        tabla[yc2+i][xc2].config(bg=cb2,state="disabled") 
-                        tabla[yc2+i][xc2+1].config(bg=cb2,state="disabled") 
+                        for ad in pos:
+                            if ad== str(yc2+i)+str(xc2) or ad== str(yc2+i)+str(xc2+1):
+                                control2=True
+                                break
+                            
                     else:
-                        tabla[yc2+i][xc2].config(bg=cb2) 
+                        for ad in pos:
+                            if ad== str(yc2+i)+str(xc2):
+                                control2=True
+                                break
+
+                if control2==True:
+                    print("no se puede ingresar")
+                
+                else: 
+                    for i in range(4):
+                        if i==3 : 
+                            tabla[yc2+i][xc2].config(bg=cb2) 
+                            tabla[yc2+i][xc2+1].config(bg=cb2) 
+                            pos.append(str(yc2+i)+str(xc2))
+                            pos.append(str(yc2+i)+str(xc2+1))
+                            matriz.append(xmatriz2,ymatriz2+i,cb2)
+                            matriz.append(xmatriz2+1,ymatriz2+i,cb2)
+                        else:
+                            tabla[yc2+i][xc2].config(bg=cb2) 
+                            pos.append(str(yc2+i)+str(xc2))
+                            matriz.append(xmatriz2,ymatriz2+i,cb2)
 
             elif turno2==2:
                 for i in range(4):
                     if i==3 :
-                        tabla[yc2+i][xc2].config(bg=cb2) 
-                        tabla[yc2+i][xc2-1].config(bg=cb2) 
+                        for ad in pos:
+                            if ad==str(yc2+i)+str(xc2) or ad==str(yc2+i)+str(xc2-1):
+                                control2=True
+                                break       
                     else:
-                        tabla[yc2+i][xc2].config(bg=cb2) 
+                        for ad in pos:
+                            if ad==str(yc2+i)+str(xc2):
+                                control2=True
+                                break
+                
+                if control2==True:
+                    print("no se puede ingresar")
+                
+                else: 
+                    for i in range(4):
+                        if i==3 :
+                            tabla[yc2+i][xc2].config(bg=cb2) 
+                            tabla[yc2+i][xc2-1].config(bg=cb2) 
+                            pos.append(str(yc2+i)+str(xc2))
+                            pos.append(str(yc2+i)+str(xc2-1))
+
+                            matriz.append(xmatriz2,ymatriz2+i,cb2)
+                            matriz.append(xmatriz2-1,ymatriz2+i,cb2)
+
+                        else:
+                            tabla[yc2+i][xc2].config(bg=cb2)
+                            pos.append(str(yc2+i)+str(xc2))
+                            matriz.append(xmatriz2,ymatriz2+i,cb2)
+                
+
             elif turno2==3:
                 for i in range(4):
-                     tabla[yc2][xc2+i].config(bg=cb2) 
+                    for ad in pos:
+                        if ad==str(yc2)+str(xc2+i):
+                            control2=True
+                            break
+                
+                if control2==True:
+                    print("no se puede ingresar")
+                
+                else:
+                    for i in range(4):
+                        tabla[yc2][xc2+i].config(bg=cb2)  
+                        pos.append(str(yc2)+str(xc2+i))
+                        matriz.append(xmatriz2+i,ymatriz2,cb2)
+
             
             elif turno2==4:
+
                 for i in range(2):
-                    tabla[yc2][xc2+i].config(bg=cb2) 
-                    tabla[yc2+1][xc2+i].config(bg=cb2) 
+                    for ad in pos:
+                        if ad==str(yc2)+str(xc2+i) or ad==str(yc2+1)+str(xc2+i):
+                            control2=True
+                            break
+                
+                if control2==True:
+                    print("no se puede ingresar")
+                
+                else:
+                     for i in range(2):
+                        tabla[yc2][xc2+i].config(bg=cb2) 
+                        pos.append(str(yc2)+str(xc2+i))
+                        matriz.append(xmatriz2+i,ymatriz2,cb2)
+                        tabla[yc2+1][xc2+i].config(bg=cb2) 
+                        pos.append(str(yc2+1)+str(xc2+i))
+                        matriz.append(xmatriz2+i,ymatriz2+1,cb2)
             
             elif turno2==5:
+
                 for i in range(2):
-                    tabla[yc2][xc2+i].config(bg=cb2) 
+                    for ad in pos:
+                        if ad==str(yc2)+str(xc2+i):
+                            control2=True
+                            break
+                     
                 for i in range(4):
-                    tabla[yc2+1][xc2-1 +i].config(bg=cb2) 
+                    for ad in pos:
+                        if ad==str(yc2+1)+str(xc2-1 +i):
+                            control2=True
+                            break
+                
+                if control2==True:
+                    print("no se puede ingresar")
+                
+                else:
+                    for i in range(2):
+                        tabla[yc2][xc2+i].config(bg=cb2) 
+                        pos.append(str(yc2)+str(xc2+i))
+                        matriz.append(xmatriz2+i,ymatriz2,cb2)
+                    
+                    for i in range(4):
+                        tabla[yc2+1][xc2-1 +i].config(bg=cb2) 
+                        pos.append(str(yc2+1)+str(xc2-1 +i))
+                        matriz.append(xmatriz2-1+i,ymatriz2+1,cb2)
             
             elif turno2==6:
                 for i in range(5):
-                    tabla[yc2+i][xc2].config(bg=cb2) 
+                    for ad in pos:
+                        if ad==str(yc2+i)+str(xc2):
+                            control2=True
+                            break
+                
+                if control2==True:
+                    print("no se puede ingresar")
+                
+                else:
+                    for i in range(5):
+                        tabla[yc2+i][xc2].config(bg=cb2) 
+                        pos.append(str(yc2+i)+str(xc2))
+                        matriz.append(xmatriz2,ymatriz2+i,cb2) 
+            
 
             textox2.delete(0,END)
             textoy2.delete(0,END)
@@ -412,6 +552,9 @@ def codigoBoton():
             pintarl2 = tk.Label(mframei, image=imag1)
             pintarl2.imag1=imag1
             pintarl2.place(x=0, y=0,width=250,height=250)
+        
+        def GraficarMatriz():
+            matriz.Graficar_Nodo()
           
 
      
@@ -424,6 +567,9 @@ def codigoBoton():
         
         botonjugar2=Button(ventana2,text="Siguiente",command=Empezar2)
         botonjugar2.place(x=750,y=490 )
+
+        Gmatriz=Button(ventana2,text="Graficar",command=GraficarMatriz)
+        Gmatriz.place(x=750,y=530)
 
         botonjugar.config(state="disabled")
         textox1.config(state="disabled")
