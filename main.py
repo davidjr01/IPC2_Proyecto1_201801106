@@ -146,9 +146,15 @@ def codigoBoton():
         ##turno=random.randint(1,6)
         turno=0
         turno2=0
+        pos=[]
+        pos.append("uno")
+        pos.append("00")
+        
 
         def iniciarJuego():
             global turno
+            
+            
             turno=random.randint(1,6)
             imag = Image.open(str(turno)+".png")
             imag1 = ImageTk.PhotoImage(imag)
@@ -160,8 +166,11 @@ def codigoBoton():
             textoy1.config(state="normal")
             botonjugar.config(state="normal")
             botoniniciar.destroy()
+            
 
         def Empezar():
+            control1=False
+
             if str(listas1.get())=="Rojo":
                 cb1="red"
             elif str(listas1.get())=="Azul":
@@ -183,36 +192,125 @@ def codigoBoton():
             if turno==1:
                 for i in range(4):
                     if i==3 :
-                        tabla[yc1+i][xc1].config(bg=cb1) 
-                        tabla[yc1+i][xc1+1].config(bg=cb1) 
+                        for ad in pos:
+                            if ad== str(yc1+i)+str(xc1) or ad== str(yc1+i)+str(xc1+1):
+                                control1=True
+                                break
+                            
                     else:
-                        tabla[yc1+i][xc1].config(bg=cb1) 
+                        for ad in pos:
+                            if ad== str(yc1+i)+str(xc1):
+                                control1=True
+                                break
+
+                if control1==True:
+                    print("no se puede ingresar")
+                
+                else: 
+                    for i in range(4):
+                        if i==3 : 
+                            tabla[yc1+i][xc1].config(bg=cb1) 
+                            tabla[yc1+i][xc1+1].config(bg=cb1) 
+                            pos.append(str(yc1+i)+str(xc1))
+                            pos.append(str(yc1+i)+str(xc1+1))
+
+                        else:
+                            tabla[yc1+i][xc1].config(bg=cb1) 
+                            pos.append(str(yc1+i)+str(xc1))
+                
 
             elif turno==2:
                 for i in range(4):
                     if i==3 :
-                        tabla[yc1+i][xc1].config(bg=cb1) 
-                        tabla[yc1+i][xc1-1].config(bg=cb1) 
+                        for ad in pos:
+                            if ad==str(yc1+i)+str(xc1) or ad==str(yc1+i)+str(xc1-1):
+                                control1=True
+                                break       
                     else:
-                        tabla[yc1+i][xc1].config(bg=cb1) 
+                        for ad in pos:
+                            if ad==str(yc1+i)+str(xc1):
+                                control1=True
+                                break
+                
+                if control1==True:
+                    print("no se puede ingresar")
+                
+                else: 
+                    for i in range(4):
+                        if i==3 :
+                            tabla[yc1+i][xc1].config(bg=cb1) 
+                            tabla[yc1+i][xc1-1].config(bg=cb1) 
+                            pos.append(str(yc1+i)+str(xc1))
+                            pos.append(str(yc1+i)+str(xc1-1))
+                        else:
+                            tabla[yc1+i][xc1].config(bg=cb1)
+                            pos.append(str(yc1+i)+str(xc1))
+                
+
             elif turno==3:
                 for i in range(4):
-                     tabla[yc1][xc1+i].config(bg=cb1) 
+                    for ad in pos:
+                        if ad==str(yc1)+str(xc1+i):
+                            control1=True
+                            break
+                
+                if control1==True:
+                    print("no se puede ingresar")
+                
+                else:
+                    for i in range(4):
+                        tabla[yc1][xc1+i].config(bg=cb1)  
             
             elif turno==4:
+
                 for i in range(2):
-                    tabla[yc1][xc1+i].config(bg=cb1) 
-                    tabla[yc1+1][xc1+i].config(bg=cb1) 
+                    for ad in pos:
+                        if ad==str(yc1)+str(xc1+i) or ad==str(yc1+1)+str(xc1+i):
+                            control1=True
+                            break
+                
+                if control1==True:
+                    print("no se puede ingresar")
+                
+                else:
+                     for i in range(2):
+                        tabla[yc1][xc1+i].config(bg=cb1) 
+                        tabla[yc1+1][xc1+i].config(bg=cb1) 
             
             elif turno==5:
+
                 for i in range(2):
-                    tabla[yc1][xc1+i].config(bg=cb1) 
+                    for ad in pos:
+                        if ad==str(yc1)+str(xc1+i):
+                            control1=True
+                            break
+                     
                 for i in range(4):
-                    tabla[yc1+1][xc1-1 +i].config(bg=cb1) 
+                    for ad in pos:
+                        if ad==str(yc1+1)+str(xc1-1 +i):
+                            control1=True
+                            break
+                
+                if control1==True:
+                    print("no se puede ingresar")
+                
+                else:
+                    for i in range(2):
+                        tabla[yc1][xc1+i].config(bg=cb1) 
+                        for i in range(4):
+                            tabla[yc1+1][xc1-1 +i].config(bg=cb1) 
             
             elif turno==6:
                 for i in range(5):
+                    for ad in pos:
+                        if ad==str(yc1+i)+str(xc1):
+                            control1=True
+                            break
+
+
+                for i in range(5):
                     tabla[yc1+i][xc1].config(bg=cb1) 
+
 
             textox1.delete(0,END)
             textoy1.delete(0,END)
@@ -232,9 +330,15 @@ def codigoBoton():
             pintarl2.imag1=imag1
             pintarl2.place(x=0, y=0,width=250,height=250)
 
+            
+
+
+
+
         
 
         def Empezar2():
+            global pos
             if str(listas2.get())=="Rojo":
                 cb2="red"
             elif str(listas2.get())=="Azul":
@@ -256,8 +360,9 @@ def codigoBoton():
             if turno2==1:
                 for i in range(4):
                     if i==3 :
-                        tabla[yc2+i][xc2].config(bg=cb2) 
-                        tabla[yc2+i][xc2+1].config(bg=cb2) 
+                     
+                        tabla[yc2+i][xc2].config(bg=cb2,state="disabled") 
+                        tabla[yc2+i][xc2+1].config(bg=cb2,state="disabled") 
                     else:
                         tabla[yc2+i][xc2].config(bg=cb2) 
 
