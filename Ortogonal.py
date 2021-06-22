@@ -61,6 +61,7 @@ class matrizOrtogonal:
                     nuevo.arriba = actual
 
     def Graficar_Nodo(self):
+        controlx=0
         CFila = self.CFilas.primero
         agrafica=open("Grafica.dot","w")
         agrafica.write("digraph G {\n")
@@ -69,13 +70,13 @@ class matrizOrtogonal:
         #______________columnas de Y ___________________________________________
         CColumna = self.CColumnas.primero
         nombrey="Y0"
-        n2=nombrey+'[label="Inicio"]\n'
+        n2=nombrey+'[label="Inicio" ,group=0]\n'
         agrafica.write(n2)
         while CColumna != None:
             actual = CColumna.accesoNodo
             nny="Y"+str(actual.columna) 
             label='"Y='+str(actual.columna)+'"' 
-            nodoy=nny+"[label="+label+"]"
+            nodoy=nny+"[label="+label+",group=0]"
             agrafica.write(nodoy+"\n")
             agrafica.write(nombrey+"->"+nny+"\n")
             agrafica.write(nny+"->"+nombrey+"\n")
@@ -86,31 +87,36 @@ class matrizOrtogonal:
         # ____________________________________________________
         
         while CFila != None:
+            
             actual = CFila.accesoNodo
             m="X="+str(actual.fila)
+            controlx=controlx+1
             nfila=int(actual.fila)
             nombrex="X"+str(actual.fila)
-            m2=nombrex+'[label="'+str(m)+'"]\n'
+            m2=nombrex+'[label="'+str(m)+'",group='+ str(controlx) +']\n'
             agrafica.write(m2)    
             while actual != None:
                 nombrenodo="nodo"+str(actual.fila)+str(actual.columna) 
                 y='"'+str(actual.dato)+'"'
-                nodo=nombrenodo+"[label="+y+"]"
+                nodo=nombrenodo+"[label="+y+",group="+ str(controlx)+"]"
                 agrafica.write(nodo+"\n")
                 agrafica.write(nombrex+"->"+nombrenodo+"\n")
                 agrafica.write(nombrenodo+"->"+nombrex+"\n")
 
                 nombrex=nombrenodo
+                
                 actual = actual.derecha
-            if nfila >1:
-                agrafica.write("X"+str(nfila -1)+"->" + "X"+str(nfila)+"\n")
-                agrafica.write("X"+str(nfila)+"->" + "X"+str(nfila-1)+"\n")
-                agrafica.write('{rank="same";'+"X"+str(nfila-1)+";"+"X"+str(nfila)+"}\n")
+            if controlx >1:
+                agrafica.write("X"+str(fanterior)+"->" + "X"+str(nfila)+"\n")
+                agrafica.write("X"+str(nfila)+"->" + "X"+str(fanterior)+"\n")
+                agrafica.write('{rank="same";'+"X"+str(fanterior)+";"+"X"+str(nfila)+"}\n")
+                fanterior=nfila
 
-            elif nfila==1:
-                agrafica.write("Y0"+"->" + "X1\n")
-                agrafica.write("X1"+"->" + "Y0\n")
-                agrafica.write('{rank="same";'+"Y0"+";"+"X1}\n")
+            elif controlx==1:
+                agrafica.write("Y0"+"->" + "X"+str(nfila)+"\n")
+                agrafica.write("X"+str(nfila) +"->" + "Y0\n")
+                agrafica.write('{rank="same";'+"Y0"+";"+  "X"+str(nfila) +";}\n")
+                fanterior=nfila
                 
 
             CFila = CFila.siguiente
